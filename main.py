@@ -4,6 +4,10 @@ import os
 app = Flask(__name__)
 
 
+@app.route('/')
+def home_page():
+    return "Welcome to Flask-Chat-Bots.\n\nFlask is running."
+
 @app.route('/post_test', methods=['POST'])
 def hello_chat():
     data = dict(request.form)
