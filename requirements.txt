@@ -3,6 +3,7 @@ billiard==3.5.0.2
 celery==4.0.2
 click==6.7
 Flask==0.12.2
+flower==0.9.2
 -e git://github.com/glovguy/intentiondetection.git@66dc05a1689793ae41b6eb8c10e680279d336ae2#egg=IntentionDetection
 itsdangerous==0.24
 Jinja2==2.9.6
