@@ -1,0 +1,4 @@
+.DS_Store
+ENV/
+__pycache__/
+dump.rdb
