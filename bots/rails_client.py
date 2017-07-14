@@ -13,5 +13,5 @@ class RailsClient(object):
     def post_message(self, message_text):
         msg_json={ 'data': { 'attributes': { 'body': '', 'sender': 2, 'style': 'bot' } } }
         msg_json['data']['attributes']['body'] = message_text
-        message_url = self.url + "/api/messages"
+        message_url = str(self.url) + "/api/messages"
         return requests.post(message_url, json=msg_json)
