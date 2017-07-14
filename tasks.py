@@ -8,7 +8,7 @@ celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
 @celery_app.task
 def incoming_message(data):
     print("Message received, data: ", data)
-    reply_url = data.get('reply_url')
+    reply_url = data.get('reply_url')[0]
     if data.get('style') == ['user']:
         msg_client = RailsClient(reply_url)
         time.sleep(3)
