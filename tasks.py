@@ -1,8 +1,9 @@
 import time
+import os
 from celery import Celery
 from bots.rails_client import RailsClient
 
-celery_app = Celery('tasks', broker='redis://localhost:6379/0')
+celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
 
 @celery_app.task
 def incoming_message(data):
