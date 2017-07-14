@@ -2,8 +2,8 @@ import requests
 
 class RailsClient(object):
 
-    def __init__(self):
-        self.url = "http://localhost:3000/api/messages"
+    def __init__(self, url):
+        self.url = url
 
     def send_message(self, message_text):
         r = self.post_message(message_text)
@@ -13,4 +13,5 @@ class RailsClient(object):
     def post_message(self, message_text):
         msg_json={ 'data': { 'attributes': { 'body': '', 'sender': 2, 'style': 'bot' } } }
         msg_json['data']['attributes']['body'] = message_text
-        return requests.post(self.url, json=msg_json)
+        message_url = self.url + "/api/messages"
+        return requests.post(message_url, json=msg_json)
