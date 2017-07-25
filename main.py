@@ -1,7 +1,15 @@
+import os
+import sys
+import logging
 from flask import Flask, jsonify, request
 import tasks
-import os
+
 app = Flask(__name__)
+if 'DYNO' in os.environ:
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.ERROR)
+else:
+    app.debug = True
 
 
 @app.route('/')
