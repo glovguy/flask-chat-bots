@@ -19,12 +19,18 @@ def home_page():
 @app.route('/post_test', methods=['POST'])
 def hello_chat():
     data = dict(request.form)
-    response = {
-        'message': 'Message received by Flask-Chat-Bots',
-        'status_code': "200 OK",}
-    tasks.incoming_message.delay(data)
-    return jsonify(response)
+    tasks.echo_bot_feed.delay(data)
+    return MESSAGE_RECEIVED
 
+@app.route('/sandwich')
+def sandwich_bot():
+    data = dict(request.form)
+    tasks.incoming_message.delay(data)
+    return MESSAGE_RECEIVED
+
+MESSAGE_RECEIVED = jsonify({
+        'message': 'Message received by Flask-Chat-Bots',
+        'status_code': "200 OK",})
 
 if __name__ == '__main__':
     app.debug = True
