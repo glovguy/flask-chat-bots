@@ -1,0 +1,4 @@
+web: python3 main.py
+worker: celery worker --app=tasks
+redis: redis-server
+flower: celery flower -A tasks
