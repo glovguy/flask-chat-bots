@@ -19,13 +19,15 @@ def home_page():
 @app.route('/post_test', methods=['POST'])
 def hello_chat():
     data = dict(request.form)
-    tasks.echo_bot_feed.delay(data)
+    sender = data.get('style')[0]
+    if sender == 'user': tasks.echo_bot_feed.delay(data)
     return jsonify(MESSAGE_RECEIVED)
 
 @app.route('/sandwich', methods=['POST'])
 def sandwich_bot():
     data = dict(request.form)
-    tasks.sandwich_bot_feed.delay(data)
+    sender = data.get('style')[0]
+    if sender == 'user': tasks.sandwich_bot_feed.delay(data)
     return jsonify(MESSAGE_RECEIVED)
 
 MESSAGE_RECEIVED = {

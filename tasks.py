@@ -36,20 +36,20 @@ def sandwich_bot_feed(data):
     words = wordnet.synsets(comparison_text)
     if len(words) > 0:
         word = words[0]
-        lowest_c_hypernyms = WN_SANDWICH.lowest_common_hypernyms(word)
-        if len(lowest_c_hypernyms) > 0:
-            lowest_hyper = lowest_c_hypernyms[0]
-        else:
-            lowest_hyper = None
+        common_hypernyms = WN_SANDWICH.common_hypernyms(word)
     else:
         word = None
-        lowest_hyper = None
+        common_hypernyms = []
     print("Synset matched: {0}".format(word))
-    print("Lowest common hypernym: {0}".format(lowest_hyper))
+    print("Common hypernyms: {0}".format(common_hypernyms))
 
-    if sandw_similarity > 0.5 or lowest_hyper is WN_SANDWICH:
+    if sandw_similarity > 0.7 or WN_SANDWICH in common_hypernyms:
+        reply_msg = "definitely a sandwich"
+    elif sandw_similarity > 0.5:
         reply_msg = "yes, that's a sandwich"
-    elif lowest_hyper is WN_ENTITY:
+    elif WN_FOOD in common_hypernyms:
+        reply_msg = "I'd eat it, but it's not a sandwich"
+    elif common_hypernyms == [WN_ENTITY]:
         reply_msg = "...that's not even a physical object"
     elif sandw_similarity == 0:
         reply_msg = "I don't know what that is"
@@ -61,3 +61,4 @@ def sandwich_bot_feed(data):
 SANDWICH = nlp(u'sandwich')
 WN_SANDWICH = wordnet.synset('sandwich.n.01')
 WN_ENTITY = wordnet.synset('entity.n.01')
+WN_FOOD = wordnet.synset('food.n.01')
