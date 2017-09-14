@@ -1,12 +1,12 @@
 import time
 import os
 from celery import Celery
-import spacy
+import en_core_web_sm
 from nltk.corpus import wordnet
 from bots.chat_client import ChatClient
 
 celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
-nlp = spacy.load('en')
+nlp = en_core_web_sm.load()
 
 @celery_app.task
 def echo_bot_feed(data):
