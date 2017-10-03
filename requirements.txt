@@ -30,7 +30,6 @@ murmurhash==0.26.4
 numpy==1.13.1
 packaging==16.8
 pathlib==1.0.1
-Pillow==3.4.2
 plac==0.9.6
 preshed==1.0.0
 psycopg2==2.6.2

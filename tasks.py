@@ -6,7 +6,7 @@ from nltk.corpus import wordnet
 from bots.chat_client import ChatClient
 
 celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
-nlp = en_core_web_sm.load()
+nlp = en_core_web_sm.load(tagger=None, parser=None, entity=None, matcher=None)
 
 @celery_app.task
 def echo_bot_feed(data):
