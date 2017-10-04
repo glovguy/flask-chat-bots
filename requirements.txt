@@ -4,7 +4,8 @@ flower==0.9.2
 -e git://github.com/glovguy/nlok.git@6aa15f435d8cffb175a6e667f53ec0c92662baac#egg=nlok
 nltk==3.2.1
 redis==2.10.5
-spacy==1.9.0
+#spacy==1.9.0
+spacy-nightly==2.0.0a13
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-1.2.0/en_core_web_sm-1.2.0.tar.gz
 virtualenv==15.1.0
 
@@ -41,7 +42,7 @@ regex==2017.7.28
 requests==2.13.0
 six==1.10.0
 termcolor==1.1.0
-thinc==6.5.2
+thinc==6.8.1
 toolz==0.8.2
 tornado==4.5.1
 tqdm==4.11.2
