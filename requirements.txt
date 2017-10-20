@@ -27,7 +27,7 @@ itsdangerous==0.24
 Jinja2==2.9.6
 kombu==4.0.2
 MarkupSafe==1.0
-murmurhash==0.26.4
+murmurhash==0.28.0
 numpy==1.13.1
 packaging==16.8
 pathlib==1.0.1
