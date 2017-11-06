@@ -6,7 +6,15 @@ import en_core_web_sm
 from bots.chat_client import ChatClient
 
 celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
-nlp = en_core_web_sm.load(tagger=None, parser=None, entity=None, matcher=None)
+nlp = None
+
+
+def load_nlp():
+    global nlp
+    if nlp is None:
+        print("Loading nlp...")
+        nlp = en_core_web_sm.load(tagger=None, parser=None, entity=None, matcher=None)
+
 
 @celery_app.task
 def echo_bot_feed(data):
@@ -20,13 +28,15 @@ def echo_bot_feed(data):
     else:
         return "No echo sent."
 
+
 @celery_app.task
 def sandwich_bot_feed(data):
+    load_nlp()
+    SANDWICH = nlp('sandwich')
     print("Sandwich bot! Message received: ", data)
     chat_client = ChatClient(data)
     if chat_client.last_sender() != 'user':
         return "Not replying, since message is not from user."
-
     comparison_text = chat_client.last_message()
     comparison_phrase = nlp(comparison_text)
     print("Phrase: {0}".format(comparison_phrase))
@@ -42,16 +52,12 @@ def sandwich_bot_feed(data):
     #     common_hypernyms = []
     # print("Synset matched: {0}".format(word))
     # print("Common hypernyms: {0}".format(common_hypernyms))
-    common_hypernyms = []
+    # common_hypernyms = []
 
     if sandw_similarity > 0.7: #or WN_SANDWICH in common_hypernyms:
         reply_msg = "definitely a sandwich"
     elif sandw_similarity > 0.5:
         reply_msg = "yes, that's a sandwich"
-    # elif WN_FOOD in common_hypernyms:
-    #     reply_msg = "I'd eat it, but it's not a sandwich"
-    # elif common_hypernyms == [WN_ENTITY]:
-    #     reply_msg = "...that's not even a physical object"
     elif sandw_similarity == 0:
         reply_msg = "I don't know what that is"
     else:
@@ -59,7 +65,7 @@ def sandwich_bot_feed(data):
     chat_client.send_message(reply_msg)
     return "Replying with: {0}".format(reply_msg)
 
-SANDWICH = nlp(u'sandwich')
+
 # WN_SANDWICH = wordnet.synset('sandwich.n.01')
 # WN_ENTITY = wordnet.synset('entity.n.01')
 # WN_FOOD = wordnet.synset('food.n.01')
