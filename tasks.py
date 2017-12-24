@@ -54,9 +54,9 @@ def sandwich_bot_feed(data):
     # print("Common hypernyms: {0}".format(common_hypernyms))
     # common_hypernyms = []
 
-    if sandw_similarity > 0.7: #or WN_SANDWICH in common_hypernyms:
+    if sandw_similarity > 0.85: #or WN_SANDWICH in common_hypernyms:
         reply_msg = "definitely a sandwich"
-    elif sandw_similarity > 0.5:
+    elif sandw_similarity > 0.65:
         reply_msg = "yes, that's a sandwich"
     elif sandw_similarity == 0:
         reply_msg = "I don't know what that is"
