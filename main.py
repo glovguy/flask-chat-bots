@@ -30,9 +30,19 @@ def sandwich_bot():
     if sender == 'user': tasks.sandwich_bot_feed.delay(data)
     return jsonify(MESSAGE_RECEIVED)
 
+@app.route('/sandwich/wake', methods=['POST'])
+def sandwich_bot_wake():
+    data = dict(request.form)
+    data['ignore'] = True
+    tasks.sandwich_bot_feed.delay(data)
+    tasks.sandwich_bot_feed.delay(data)
+    tasks.sandwich_bot_feed.delay(data)
+    return jsonify(MESSAGE_RECEIVED)
+
 MESSAGE_RECEIVED = {
         'message': 'Message received by Flask-Chat-Bots',
-        'status_code': "200 OK",}
+        'status': "200",
+        }
 
 if __name__ == '__main__':
     app.debug = True
