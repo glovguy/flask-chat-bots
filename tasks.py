@@ -2,7 +2,6 @@ import time
 import os
 from celery import Celery
 import en_core_web_sm
-# from nltk.corpus import wordnet
 from bots.chat_client import ChatClient
 
 celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
@@ -45,29 +44,38 @@ def sandwich_bot_feed(data):
     sandw_similarity = comparison_phrase.similarity(SANDWICH)
     print("Sandwich word vector similarity: {0}".format(sandw_similarity))
 
-    # words = wordnet.synsets(comparison_text)
-    # if len(words) > 0:
-    #     word = words[0]
-    #     common_hypernyms = WN_SANDWICH.common_hypernyms(word)
-    # else:
-    #     word = None
-    #     common_hypernyms = []
-    # print("Synset matched: {0}".format(word))
-    # print("Common hypernyms: {0}".format(common_hypernyms))
-    # common_hypernyms = []
+    if 'DYNO' not in os.environ:
+        words = wordnet.synsets(comparison_text)
+        if len(words) > 0:
+            word = words[0]
+            common_hypernyms = WN_SANDWICH.common_hypernyms(word)
+        else:
+            word = None
+            common_hypernyms = []
+        print("Synset matched: {0}".format(word))
+        print("Common hypernyms: {0}".format(common_hypernyms))
+        common_hypernyms = []
 
-    if sandw_similarity > 0.85: #or WN_SANDWICH in common_hypernyms:
+    if sandw_similarity > 0.85:
+        reply_msg = "definitely a sandwich"
+    elif 'DYNO' not in os.environ and WN_SANDWICH in common_hypernyms:
         reply_msg = "definitely a sandwich"
     elif sandw_similarity > 0.65:
         reply_msg = "yes, that's a sandwich"
     elif sandw_similarity == 0:
         reply_msg = "I don't know what that is"
+    elif 'DYNO' not in os.environ and WN_FOOD in common_hypernyms:
+        reply_msg = "I'd eat it, but it's not a sandwich"
+    elif 'DYNO' not in os.environ and common_hypernyms == [WN_ENTITY]:
+        reply_msg = "...that's not even a physical object"
     else:
         reply_msg = "no, that's not a sandwich"
     chat_client.send_message(reply_msg)
     return "Replying with: {0}".format(reply_msg)
 
 
-# WN_SANDWICH = wordnet.synset('sandwich.n.01')
-# WN_ENTITY = wordnet.synset('entity.n.01')
-# WN_FOOD = wordnet.synset('food.n.01')
+if 'DYNO' not in os.environ:
+    from nltk.corpus import wordnet
+    WN_SANDWICH = wordnet.synset('sandwich.n.01')
+    WN_ENTITY = wordnet.synset('entity.n.01')
+    WN_FOOD = wordnet.synset('food.n.01')
