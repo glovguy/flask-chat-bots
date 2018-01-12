@@ -31,10 +31,12 @@ def echo_bot_feed(data):
 
 @celery_app.task
 def sandwich_bot_feed(data):
+    chat_client = ChatClient(data)
+    if nlp is None:
+        chat_client.send_message("hmm...")
     load_nlp()
     SANDWICH = nlp('sandwich')
     print("Sandwich bot! Message received: ", data)
-    chat_client = ChatClient(data)
     if chat_client.last_sender() != 'user':
         return "Not replying, since message is not from user."
     comparison_text = chat_client.last_message()
