@@ -35,8 +35,6 @@ def sandwich_bot_wake():
     data = dict(request.form)
     data['ignore'] = True
     tasks.sandwich_bot_feed.delay(data)
-    tasks.sandwich_bot_feed.delay(data)
-    tasks.sandwich_bot_feed.delay(data)
     return jsonify(MESSAGE_RECEIVED)
 
 MESSAGE_RECEIVED = {
