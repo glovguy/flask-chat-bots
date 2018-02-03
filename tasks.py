@@ -1,6 +1,7 @@
 import time
 import os
 from celery import Celery
+from celery.bin import worker
 import en_core_web_sm
 from bots.chat_client import ChatClient
 
@@ -76,3 +77,14 @@ def sandwich_bot_feed(data):
         reply_msg = "no, that's not a sandwich"
     chat_client.send_message(reply_msg)
     return "Replying with: {0}".format(reply_msg)
+
+
+if __name__ == '__main__':
+    worker = worker.worker(app=celery_app)
+    options = {
+        'broker': os.environ['REDIS_URL'],
+        'loglevel': 'INFO',
+        'traceback': True,
+        'concurrency': 1,
+    }
+    worker.run(**options)
