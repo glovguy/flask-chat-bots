@@ -4,6 +4,8 @@ from celery import Celery
 from celery.bin import worker
 import en_core_web_sm
 from bots.chat_client import ChatClient
+from bots.lib.bot_helper import *
+
 
 celery_app = Celery('tasks', broker=os.environ['REDIS_URL'])
 nlp = None
@@ -44,6 +46,7 @@ def sandwich_bot_feed(data):
     print("Phrase: {0}".format(comparison_phrase))
     sandw_similarity = comparison_phrase.similarity(SANDWICH)
     print("Sandwich word vector similarity: {0}".format(sandw_similarity))
+    print("Is full sentence: {}".format(is_full_sentence(comparison_phrase)))
 
     if 'DYNO' not in os.environ:
         from nltk.corpus import wordnet
@@ -61,7 +64,11 @@ def sandwich_bot_feed(data):
         print("Common hypernyms: {0}".format(common_hypernyms))
         print("'DYNO' not in os.environ and common_hypernyms == [WN_ENTITY]: {0}".format('DYNO' not in os.environ and common_hypernyms == [WN_ENTITY]))
 
-    if sandw_similarity > 0.85:
+    if is_full_sentence(comparison_phrase):
+        reply_msg = "beep boop, sorry I'm a dumb robot who doesn't understand full sentences"
+    elif 'DYNO' not in os.environ and common_hypernyms == [WN_ENTITY]:
+        reply_msg = "...that's not even a physical object"
+    elif sandw_similarity > 0.85:
         reply_msg = "definitely a sandwich"
     elif 'DYNO' not in os.environ and WN_SANDWICH in common_hypernyms:
         reply_msg = "definitely a sandwich"
@@ -71,8 +78,6 @@ def sandwich_bot_feed(data):
         reply_msg = "I don't know what that is"
     elif 'DYNO' not in os.environ and WN_FOOD in common_hypernyms:
         reply_msg = "I'd eat it, but it's not a sandwich"
-    elif 'DYNO' not in os.environ and common_hypernyms == [WN_ENTITY]:
-        reply_msg = "...that's not even a physical object"
     else:
         reply_msg = "no, that's not a sandwich"
     chat_client.send_message(reply_msg)
