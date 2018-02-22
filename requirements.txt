@@ -27,7 +27,7 @@ Jinja2==2.9.6
 kombu==4.0.2
 MarkupSafe==1.0
 msgpack-numpy==0.4.1
-msgpack-python==0.4.8
+msgpack-python==0.5.5
 murmurhash==0.28.0
 numpy==1.13.1
 packaging==16.8
