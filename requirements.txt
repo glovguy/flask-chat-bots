@@ -39,7 +39,7 @@ pyparsing==2.2.0
 python-engineio==1.5.2
 python-socketio==1.7.4
 pytz==2017.2
-regex==2017.4.5
+regex==2019.04.09
 requests==2.13.0
 six==1.10.0
 termcolor==1.1.0
