@@ -11,7 +11,7 @@ virtualenv==15.1.0
 amqp==2.2.0
 appdirs==1.4.3
 Babel==2.4.0
-billiard==3.5.0.2
+billiard==3.6.1.0
 click==6.7
 cymem==1.31.2
 cytoolz==0.8.2
