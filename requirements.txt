@@ -20,7 +20,7 @@ dj-database-url==0.4.1
 Django==1.10.4
 feedparser==5.2.1
 ftfy==4.4.3
-gunicorn==19.6.0
+gunicorn==20.0.4
 html5lib==0.999999999
 itsdangerous==0.24
 Jinja2==2.9.6
