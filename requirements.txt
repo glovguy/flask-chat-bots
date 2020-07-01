@@ -4,7 +4,7 @@ flower==0.9.2
 #nltk==3.2.1
 redis==2.10.5
 spacy==1.9.0
-spacy-nightly==2.0.0a18
+spacy-nightly==3.0.0a0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0a8/en_core_web_sm-2.0.0a8.tar.gz
 virtualenv==15.1.0
 
