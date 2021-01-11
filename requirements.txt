@@ -6,7 +6,7 @@ redis==2.10.5
 spacy==1.9.0
 spacy-nightly==2.0.0a18
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.0.0a8/en_core_web_sm-2.0.0a8.tar.gz
-virtualenv==15.1.0
+virtualenv==20.3.0
 
 amqp==2.2.0
 appdirs==1.4.3
